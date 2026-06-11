@@ -1,6 +1,6 @@
 # NSO Server
 
-> Server game NSO chạy bằng Docker Compose. Docker build server từ source code .
+> Mã nguồn NSO được sưu tầm trên Internet, không thuộc quyền sở hữu của người chia sẻ. Repository này chỉ chỉnh sửa và tối ưu lại cách build, đóng gói Docker để mọi người dễ dàng cài đặt và nghiên cứu .Dự án được chia sẻ hoàn toàn miễn phí cho mục đích học tập, nghiên cứu và tham khảo. Không sử dụng vào mục đích thương mại, kinh doanh hoặc mua bán dưới mọi hình thức.
 
 ---
 
