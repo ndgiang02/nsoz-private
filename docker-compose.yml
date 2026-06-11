@@ -1,0 +1,99 @@
+services:
+  db:
+    build:
+      context: .
+      dockerfile: docker/database/Dockerfile
+    container_name: nsoz-db
+    environment:
+      MARIADB_ROOT_PASSWORD: root_password
+      MARIADB_DATABASE: nsoz2
+      MARIADB_USER: nsoz
+      MARIADB_PASSWORD: nsoz_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - nsoz_db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb-admin ping -h 127.0.0.1 -uroot -p$${MARIADB_ROOT_PASSWORD} --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+
+  phpmyadmin:
+    image: phpmyadmin:5-apache
+    container_name: nsoz-phpmyadmin
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_USER: nsoz
+      PMA_PASSWORD: nsoz_password
+      MYSQL_ROOT_PASSWORD: root_password
+      UPLOAD_LIMIT: 256M
+    ports:
+      - "8081:80"
+    restart: unless-stopped
+
+  mongo:
+    image: mongo:6
+    container_name: nsoz-mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root_password
+    ports:
+      - "27017:27017"
+    volumes:
+      - nsoz_mongo_data:/data/db
+    healthcheck:
+      test: ["CMD-SHELL", "mongosh --quiet --eval 'db.adminCommand({ ping: 1 }).ok' -u root -p root_password --authenticationDatabase admin | grep 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+
+  server-list:
+    image: nginx:alpine
+    container_name: nsoz-server-list
+    ports:
+      - "8080:80"
+    volumes:
+      - ./docker/server-list:/usr/share/nginx/html:ro
+
+  server:
+    build:
+      context: .
+    container_name: nsoz-server
+    depends_on:
+      db:
+        condition: service_healthy
+      mongo:
+        condition: service_healthy
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: nsoz
+      DB_PASSWORD: nsoz_password
+      DB_NAME: nsoz2
+      MONGODB_HOST: mongo
+      MONGODB_PORT: 27017
+      MONGODB_USER: root
+      MONGODB_PASSWORD: root_password
+      MONGODB_DBNAME: admin
+      SERVER_PORT: 14444
+      GAME_LOGIN_LIMIT: 1000
+      GAME_DATA_VERSION: 120
+      GAME_ITEM_VERSION: 120
+      GAME_MAP_VERSION: 120
+      GAME_SKILL_VERSION: 120
+      SERVER_LOG_DISPLAY: "true"
+      JAVA_XMS: 256m
+      JAVA_XMX: 512m
+    ports:
+      - "14444:14444"
+    restart: unless-stopped
+
+volumes:
+  nsoz_db_data:
+  nsoz_mongo_data:
+

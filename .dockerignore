@@ -1,0 +1,10 @@
+.git
+.gitignore
+target
+out
+nbactions.xml
+run.bat
+Nso.jar
+app.jar
+config.properties
+*.log

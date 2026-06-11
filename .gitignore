@@ -1,0 +1,16 @@
+/logs
+*.DS_Store
+*.DS_Store?
+/config.properties
+/build
+/target
+/out
+/app.jar
+/Nso.jar
+/.vscode
+/nbactions.xml
+/nb-configuration.xml
+/.project
+/.classpath
+*.class
+/Data
