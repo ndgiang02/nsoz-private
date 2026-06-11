@@ -29,7 +29,7 @@ cd nsoz
 Tải `Data.zip` từ GitHub Release:
 
 ```sh
-wget -O Data.zip "https://github.com/<user>/<repo>/releases/download/data/Data.zip"
+wget -O Data.zip "https://github.com/ndgiang02/nsoz-private/releases/download/data/Data.zip"
 ```
 
 Giải nén Data vào thư mục gốc project:
@@ -94,13 +94,13 @@ cd nsoz
 Tải `Data.zip` từ GitHub Release bằng PowerShell:
 
 ```powershell
-Invoke-WebRequest -Uri "https://github.com/<user>/<repo>/releases/download/data/Data.zip" -OutFile "Data.zip"
+Invoke-WebRequest -Uri "https://github.com/ndgiang02/nsoz-private/releases/download/data/Data.zip" -OutFile "Data.zip"
 ```
 
 Hoặc mở link này bằng trình duyệt để tải thủ công:
 
 ```text
-https://github.com/<user>/<repo>/releases/download/data/Data.zip
+https://github.com/ndgiang02/nsoz-private/releases/download/data/Data.zip
 ```
 
 Giải nén `Data.zip` vào thư mục gốc project sao cho đúng cấu trúc:
